@@ -26,7 +26,7 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut id="myPointCut" expression="execution(* com.shenchao.usermanager.service.*.*(..))"/>
+		<aop:pointcut id="myPointCut" expression="execution(* com.shenchao.usermanager.service..*.*(..))"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointCut"/>
 	</aop:config>
 </beans>

@@ -28,4 +28,25 @@ public class UserServiceImpl implements UserService {
         PageInfo<User> pageInfo = new PageInfo<>(result);
         return new EasyUIResult<>(pageInfo.getTotal(), pageInfo.getList());
     }
+
+    @Override
+    public User queryUserById(Long id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean saveUser(User user) {
+        return userMapper.insert(user)==1;
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        //有选择性的更新(选择不为null的更新)
+        return userMapper.updateByPrimaryKeySelective(user)==1;
+    }
+
+    @Override
+    public boolean deleteUser(Long id) {
+        return userMapper.deleteByPrimaryKey(id)==1;
+    }
 }

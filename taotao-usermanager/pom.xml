@@ -42,19 +42,16 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
-            <version>4.1.6</version>
         </dependency>
         <dependency>
             <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>
-            <version>0.9.5</version>
         </dependency>
 
         <!-- 通用Mapper -->
         <dependency>
             <groupId>com.github.abel533</groupId>
             <artifactId>mapper</artifactId>
-            <version>RELEASE</version>
         </dependency>
 
         <!-- MySql -->

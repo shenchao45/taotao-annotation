@@ -148,6 +148,24 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
+            <!-- 分页助手 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>4.1.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>0.9.5</version>
+            </dependency>
+
+            <!-- 通用Mapper -->
+            <dependency>
+                <groupId>com.github.abel533</groupId>
+                <artifactId>mapper</artifactId>
+                <version>3.0.1</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

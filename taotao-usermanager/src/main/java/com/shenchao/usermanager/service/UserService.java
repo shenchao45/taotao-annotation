@@ -8,4 +8,12 @@ import com.shenchao.usermanager.entity.User;
  */
 public interface UserService {
     EasyUIResult<User> queryUserList(Integer page, Integer rows);
+
+    User queryUserById(Long id);
+
+    boolean saveUser(User user);
+
+    boolean updateUser(User user);
+
+    boolean deleteUser(Long id);
 }
