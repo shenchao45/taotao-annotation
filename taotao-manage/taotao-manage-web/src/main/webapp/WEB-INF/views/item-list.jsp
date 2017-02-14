@@ -65,14 +65,13 @@
         			});
         			
         			//加载商品规格
-        			$.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
-        				if(_data && _data.status == 200 && _data.data && _data.data.paramData){
+        			$.getJSON('/rest/item/param/item/'+data.id,function(data){
         					$("#itemeEditForm .params").show();
-        					$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
-        					$("#itemeEditForm [name=itemParamId]").val(_data.data.id);
+        					$("#itemeEditForm [name=itemParams]").val(data.paramData);
+        					$("#itemeEditForm [name=itemParamId]").val(data.id);
         					
         					//回显商品规格
-        					 var paramData = JSON.parse(_data.data.paramData);
+        					 var paramData = JSON.parse(data.paramData);
         					
         					 var html = "<ul>";
         					 for(var i in paramData){
@@ -89,17 +88,19 @@
         					 }
         					 html+= "</ul>";
         					 $("#itemeEditForm .params td").eq(1).html(html);
-        				}
         			});
-        			
-        			TAOTAO.init({
-        				"pics" : data.image,
-        				"cid" : data.cid,
-        				fun:function(node){
-        					TAOTAO.changeItemParam(node, "itemeEditForm");
-        				}
-        			});
-        		}
+                    $.getJSON('/rest/item/cat/'+data.cid,function (myData) {
+                        TAOTAO.init({
+                            "pics" : data.image,
+                            "cid" : data.cid,
+                            "catText":myData.name,
+                            fun:function(node){
+                                TAOTAO.changeItemParam(node, "itemeEditForm");
+                            }
+                        });
+                    })
+
+                }
         	}).window("open");
         }
     },{

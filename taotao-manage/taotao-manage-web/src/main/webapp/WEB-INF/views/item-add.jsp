@@ -124,11 +124,18 @@
             type: "POST",
             url: "/rest/item",
             data: $("#itemAddForm").serialize(),
-            success: function (msg) {
-                $.messager.alert('提示', '新增商品成功!');
-            },
-            error: function () {
-                $.messager.alert('提示', '新增商品失败!');
+            statusCode: {
+                201: function () {
+                    $.messager.alert("提示", "新增商品成功!");
+                    $("#itemAddForm").window('close');
+                    $("#itemList").datagrid("reload");
+                },
+                500: function () {
+                    $.messager.alert("提示", "新增商品失败");
+                },
+                400: function () {
+                    $.messager.alert("提示", "参数不合法");
+                }
             }
         });
     }

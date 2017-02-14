@@ -22,9 +22,9 @@ Date.prototype.format = function (format) {
 var TT = TAOTAO = {
     // 编辑器参数
     kingEditorParams: {
-        filePostName: "uploadFile",
-        uploadJson: '/rest/pic/upload',
-        dir: "image"
+        filePostName: "uploadFile",  //图片上传时表单提交时的input名称
+        uploadJson: '/rest/pic/upload',//图片上传的路径
+        dir: "image"//图片的类型
     },
     // 格式化时间
     formatDateTime: function (val, row) {
@@ -99,8 +99,8 @@ var TT = TAOTAO = {
     initItemCat: function (data) {
         $(".selectItemCat").each(function (i, e) {
             var _ele = $(e);
-            if (data && data.cid) {
-                _ele.after("<span style='margin-left:10px;'>" + data.cid + "</span>");
+            if (data && data.catText) {
+                _ele.after("<span style='margin-left:10px;'>" + data.catText + "</span>");
             } else {
                 _ele.after("<span style='margin-left:10px;'></span>");
             }
@@ -117,7 +117,7 @@ var TT = TAOTAO = {
                             var _win = this;
                             $("ul", _win).tree({
                                 url: '/rest/item/cat',
-                                method:'GET',
+                                method: 'GET',
                                 animate: true,
                                 onClick: function (node) {
                                     if ($(this).tree("isLeaf", node.target)) {
@@ -184,7 +184,42 @@ var TT = TAOTAO = {
     },
 
     changeItemParam: function (node, formId) {
-        $.getJSON("/rest/item/param/query/itemcatid/" + node.id, function (data) {
+
+        $.ajax({
+            type: "GET",
+            url: "/rest/item/param/" + node.id,
+            statusCode:{
+                200:function (data) {
+                    $("#" + formId + " .params").show();
+                    var paramData = JSON.parse(data.paramData);
+                    var html = "<ul>";
+                    for (var i in paramData) {
+                        var pd = paramData[i];
+                        html += "<li><table>";
+                        html += "<tr><td colspan=\"2\" class=\"group\">" + pd.group + "</td></tr>";
+
+                        for (var j in pd.params) {
+                            var ps = pd.params[j];
+                            html += "<tr><td class=\"param\"><span>" + ps + "</span>: </td><td><input autocomplete=\"off\" type=\"text\"/></td></tr>";
+                        }
+
+                        html += "</li></table>";
+                    }
+                    html += "</ul>";
+                    $("#" + formId + " .params td").eq(1).html(html);
+                },
+                404:function () {
+                    $("#" + formId + " .params").hide();
+                    $("#" + formId + " .params td").eq(1).empty();
+                },
+                500:function () {
+                    alert("error");
+                }
+
+            }
+        });
+
+        /*$.getJSON("/rest/item/param/query/itemcatid/" + node.id, function (data) {
             if (data.status == 200 && data.data) {
                 $("#" + formId + " .params").show();
                 var paramData = JSON.parse(data.data.paramData);
@@ -207,7 +242,7 @@ var TT = TAOTAO = {
                 $("#" + formId + " .params").hide();
                 $("#" + formId + " .params td").eq(1).empty();
             }
-        });
+        });*/
     },
     getSelectionsIds: function (select) {
         var list = $(select);
