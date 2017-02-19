@@ -2,6 +2,8 @@ package com.shenchao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taotao.common.ItemCatResult;
+import com.taotao.manage.pojo.ContentCategory;
+import com.taotao.manage.service.ContentCategoryService;
 import com.taotao.manage.service.ItemCatService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +22,19 @@ public class ItemCatServiceTest {
 
     @Autowired
     private ItemCatService itemCatService;
+    @Autowired
+    private ContentCategoryService contentCategoryService;
     @Test
     public void testItemCatToTree() throws IOException {
         ItemCatResult itemCatResult = itemCatService.queryAllToTree();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(System.out,itemCatResult);
     }
+    @Test
+    public void testDeleteChilds(){
+        ContentCategory contentCategory = new ContentCategory();
+        contentCategory.setId(43l);
+        contentCategoryService.deleteAll(contentCategory);
+    }
+
 }

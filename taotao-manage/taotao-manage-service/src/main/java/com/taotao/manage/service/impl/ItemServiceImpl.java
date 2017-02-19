@@ -3,6 +3,7 @@ package com.taotao.manage.service.impl;
 import com.github.abel533.entity.Example;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.taotao.common.ApiService;
 import com.taotao.common.EasyUIResult;
 import com.taotao.manage.pojo.Item;
 import com.taotao.manage.pojo.ItemDesc;
@@ -22,6 +23,9 @@ import java.util.List;
 public class ItemServiceImpl extends BaseServiceImpl<Item> implements ItemService {
     @Autowired
     private ItemDescService itemDescService;
+
+    @Autowired
+    private ApiService apiService;
 
     @Autowired
     private ItemParamItemService itemParamItemService;
@@ -59,6 +63,14 @@ public class ItemServiceImpl extends BaseServiceImpl<Item> implements ItemServic
 
     @Override
     public boolean updateItem(Item item, String desc,String itemParams) {
+        try {
+            String url = "http://www.taotao.com/item/cache/" + item.getId()+".html";
+            apiService.doGet(url);
+            System.out.println("清除前端缓存了。。。。");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("清除前端缓存失败。。。。");
+        }
         try {
             updateSelective(item);
             ItemDesc itemDesc = new ItemDesc();

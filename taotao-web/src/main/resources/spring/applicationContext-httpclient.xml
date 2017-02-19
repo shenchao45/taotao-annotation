@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" id="connectionManager">
+        <property name="maxTotal" value="20"/>
+        <property name="defaultMaxPerRoute" value="20"/>
+    </bean>
+    <bean class="org.apache.http.impl.client.HttpClientBuilder" id="httpClientBuilder">
+        <property name="connectionManager" ref="connectionManager"/>
+    </bean>
+    <!--注意该对象为多例-->
+    <bean factory-bean="httpClientBuilder" factory-method="build" class="org.apache.http.impl.client.CloseableHttpClient" id="closeableHttpClient" scope="prototype">
+        <aop:scoped-proxy/>
+    </bean>
+    <bean class="org.apache.http.client.config.RequestConfig.Builder" id="requestConfigBuilder">
+        <property name="connectionRequestTimeout" value="500"/>
+        <property name="connectTimeout" value="1000"/>
+        <property name="socketTimeout" value="10000"/>
+        <property name="staleConnectionCheckEnabled" value="true"/>
+    </bean>
+    <bean class="org.apache.http.client.config.RequestConfig" id="requestConfig" factory-bean="requestConfigBuilder"
+          factory-method="build"/>
+    <bean class="com.taotao.common.IdleConnectionEvictor">
+        <constructor-arg index="0" ref="connectionManager"/>
+    </bean>
+</beans>
