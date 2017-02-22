@@ -204,7 +204,7 @@
                 </li>
                 <li id="choose-btns">
                     <div id="choose-btn-append" class="btn">
-                        <a class="btn-append " id="InitCartUrl" href="http://www.taotao.com/order/${item.id}.html"
+                        <a class="btn-append " id="InitCartUrl" href="http://cart.taotao.com/cart/${item.id}.html"
                            clstag="shangpin|keycount|product|initcarturl">加入购物车<b></b></a>
                     </div>
                     <div id="choose-btn-easybuy" class="btn"></div>
